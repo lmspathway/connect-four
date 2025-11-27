@@ -1,12 +1,56 @@
 ﻿@page "/"
+@rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
 
 <div class="d-flex flex-column align-items-center mt-4">
     <h1 class="mb-3">Connect Four</h1>
 
-    <Board @rendermode="InteractiveServer"
-           BoardColor="gold"
-           Player1Color="#e53935"
-           Player2Color="#1e88e5" />
+    <div class="mb-3 d-flex flex-wrap justify-content-center gap-3">
+        <label class="form-label small d-flex align-items-center gap-2">
+            Board
+            <input type="color"
+                   class="form-control form-control-color"
+                   value="@boardColor"
+                   @onchange="OnBoardColorChanged"
+                   aria-label="Choose board color" />
+        </label>
+
+        <label class="form-label small d-flex align-items-center gap-2">
+            Player 1
+            <input type="color"
+                   class="form-control form-control-color"
+                   value="@player1Color"
+                   @onchange="OnPlayer1ColorChanged"
+                   aria-label="Choose player one piece color" />
+        </label>
+
+        <label class="form-label small d-flex align-items-center gap-2">
+            Player 2
+            <input type="color"
+                   class="form-control form-control-color"
+                   value="@player2Color"
+                   @onchange="OnPlayer2ColorChanged"
+                   aria-label="Choose player two piece color" />
+        </label>
+    </div>
+
+    <Board BoardColor="@boardColor"
+           Player1Color="@player1Color"
+           Player2Color="@player2Color" />
 </div>
+
+@code {
+    private string boardColor = "#ffd600";
+    private string player1Color = "#e53935";
+    private string player2Color = "#1e88e5";
+
+    private void OnBoardColorChanged(ChangeEventArgs e)
+        => boardColor = e.Value?.ToString() ?? boardColor;
+
+    private void OnPlayer1ColorChanged(ChangeEventArgs e)
+        => player1Color = e.Value?.ToString() ?? player1Color;
+
+    private void OnPlayer2ColorChanged(ChangeEventArgs e)
+        => player2Color = e.Value?.ToString() ?? player2Color;
+}

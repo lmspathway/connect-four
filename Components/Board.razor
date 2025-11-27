@@ -1,22 +1,6 @@
 @inject GameState State
 @inject IJSRuntime JS
-
-<nav class="drop-row">
-    @for (byte i = 0; i < 7; i++)
-    {
-        var col = i;
-        var disabled = IsColumnFull(col) || !string.IsNullOrEmpty(winnerMessage);
-
-        <button class="drop-button @(disabled ? "disabled" : "")"
-                disabled="@disabled"
-                title="@(disabled ? "Column is full" : "Click to play a piece")"
-                @onclick="() => PlayPiece(col)">
-            🔽
-        </button>
-    }
-</nav>
-
-<section class="status-area">
+<section class="status-area" aria-live="polite">
     @if (!string.IsNullOrEmpty(winnerMessage))
     {
         <span class="badge bg-success me-2">@winnerMessage</span>
@@ -37,23 +21,62 @@
     {
         <span class="badge bg-info text-dark">@CurrentTurn</span>
     }
+
+    <span class="text-muted small ms-2">
+        P1 Wins: @player1Wins | P2 Wins: @player2Wins
+    </span>
 </section>
 
-<div class="board-container"
-     style="--board-bg:@BoardColor; --player1:@Player1Color; --player2:@Player2Color;">
-    <div class="board">
+<div class="board-layout">
+    <nav class="drop-row" aria-label="Choose a column to drop a piece">
+            @for (byte i = 0; i < 7; i++)
+            {
+                var col = i;
+                var disabled = IsColumnFull(col) || !string.IsNullOrEmpty(winnerMessage);
+
+                <button class="drop-button @(disabled ? "disabled" : "")"
+                        disabled="@disabled"
+                        title="@(disabled ? "Column is full" : "Click to play a piece")"
+                        @onclick="() => PlayPiece(col)">
+                    🔽
+                </button>
+            }
+        </nav>
+    <div class="board-container"
+         style="--board-bg:@BoardColor; --player1:@Player1Color; --player2:@Player2Color;">
+         
+        <div class="board">
+            @for (var i = 0; i < 42; i++)
+            {
+                <span class="container">
+                    <span></span>
+                </span>
+            }
+        </div>
+
         @for (var i = 0; i < 42; i++)
         {
-            <span class="container">
-                <span></span>
-            </span>
+            <span class="@pieces[i]"></span>
         }
     </div>
 
-    @for (var i = 0; i < 42; i++)
-    {
-        <span class="@pieces[i]"></span>
-    }
+    <aside class="moves-panel" aria-label="Moves in this game">
+        <h2 class="h6">Moves</h2>
+
+        @if (moves.Count == 0)
+        {
+            <p class="text-muted small mb-0">No moves yet.</p>
+        }
+        else
+        {
+            <ol class="moves-list">
+                @foreach (var move in moves)
+                {
+                    <li>@move</li>
+                }
+            </ol>
+        }
+    </aside>
 </div>
 
 <audio id="dropSound" src="sounds/drop.mp3" preload="auto"></audio>
@@ -68,6 +91,10 @@
     private string[] pieces = new string[42];
     private string winnerMessage = string.Empty;
     private string errorMessage = string.Empty;
+    private readonly List<string> moves = new();
+    private int player1Wins;
+    private int player2Wins;
+    private GameState.WinState lastWinState = GameState.WinState.No_Winner;
 
     private string CurrentTurn => (winnerMessage == string.Empty) ? $"Player {State.PlayerTurn}'s Turn" : "";
     private string ResetStyle => (winnerMessage == string.Empty) ? "display: none;" : "";
@@ -90,6 +117,8 @@
             var landingRow = State.PlayPiece(col);
             pieces[turn] = $"player{player} col{col} drop{landingRow}";
 
+            moves.Add($"Turn {turn + 1}: Player {player} → Col {col + 1}, Row {landingRow}");
+
             await JS.InvokeVoidAsync("playSound", "dropSound");
         }
         catch (ArgumentException ex)
@@ -98,13 +127,28 @@
             await JS.InvokeVoidAsync("playSound", "errorSound");
         }
 
-        winnerMessage = State.CheckForWin() switch
+        var winState = State.CheckForWin();
+        winnerMessage = winState switch
         {
             GameState.WinState.Player1_Wins => "Player 1 Wins!",
             GameState.WinState.Player2_Wins => "Player 2 Wins!",
             GameState.WinState.Tie => "It's a tie!",
             _ => ""
         };
+
+        if (winState != lastWinState)
+        {
+            if (winState == GameState.WinState.Player1_Wins)
+            {
+                player1Wins++;
+            }
+            else if (winState == GameState.WinState.Player2_Wins)
+            {
+                player2Wins++;
+            }
+
+            lastWinState = winState;
+        }
 
         if (!string.IsNullOrEmpty(winnerMessage))
         {
@@ -118,5 +162,7 @@
         winnerMessage = string.Empty;
         errorMessage = string.Empty;
         pieces = new string[42];
+        moves.Clear();
+        lastWinState = GameState.WinState.No_Winner;
     }
 }

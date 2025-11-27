@@ -3,7 +3,7 @@
 .drop-row[b-q4iafmij9j] {
     display: flex;
     justify-content: center;
-    gap: .35rem;
+    gap: 23px;
     margin-top: 1.5rem;
 }
 
@@ -43,11 +43,37 @@
     gap: .5rem;
 }
 
+.board-layout[b-q4iafmij9j] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
 .board-container[b-q4iafmij9j] {
+    grid-column: 1 / 2;
     position: relative;
-    width: 30em;
-    height: 24em;
-    margin: 0 auto 1.5rem auto;
+    width: 460px;
+}
+
+.moves-panel[b-q4iafmij9j] {
+    min-width: 12rem;
+    max-width: 16rem;
+    font-size: .85rem;
+}
+
+.moves-panel h2[b-q4iafmij9j] {
+    font-size: .9rem;
+    margin-bottom: .25rem;
+}
+
+.moves-list[b-q4iafmij9j] {
+    padding-left: 1.2rem;
+    max-height: 22rem;
+    overflow-y: auto;
 }
 
 /* ===== Tabuleiro ===== */
