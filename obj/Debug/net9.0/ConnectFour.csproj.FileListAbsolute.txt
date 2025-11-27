@@ -76,5 +76,5 @@
 /Users/lucasmendonca/Documents/personal-projects/cse325/ConnectFour/obj/Debug/net9.0/ConnectFour.genruntimeconfig.cache
 /Users/lucasmendonca/Documents/personal-projects/cse325/ConnectFour/obj/Debug/net9.0/ref/ConnectFour.dll
 /Users/lucasmendonca/Documents/personal-projects/cse325/ConnectFour/obj/Debug/net9.0/scopedcss/Components/Board.razor.rz.scp.css
-/Users/lucasmendonca/Documents/personal-projects/cse325/ConnectFour/obj/Debug/net9.0/compressed/8rgyt56fu5-pmb3d50wpk.gz
-/Users/lucasmendonca/Documents/personal-projects/cse325/ConnectFour/obj/Debug/net9.0/compressed/i191p69b07-pmb3d50wpk.gz
+/Users/lucasmendonca/Documents/personal-projects/cse325/ConnectFour/obj/Debug/net9.0/compressed/8rgyt56fu5-bwyeb68s91.gz
+/Users/lucasmendonca/Documents/personal-projects/cse325/ConnectFour/obj/Debug/net9.0/compressed/i191p69b07-bwyeb68s91.gz

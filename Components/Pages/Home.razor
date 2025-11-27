@@ -1,7 +1,12 @@
 ﻿@page "/"
 
 <PageTitle>Home</PageTitle>
-<Board @rendermode="InteractiveServer"
-     BoardColor="System.Drawing.Color.Black"
-     Player1Color="System.Drawing.Color.Green"
-     Player2Color="System.Drawing.Color.Purple" />
+
+<div class="d-flex flex-column align-items-center mt-4">
+    <h1 class="mb-3">Connect Four</h1>
+
+    <Board @rendermode="InteractiveServer"
+           BoardColor="gold"
+           Player1Color="#e53935"
+           Player2Color="#1e88e5" />
+</div>

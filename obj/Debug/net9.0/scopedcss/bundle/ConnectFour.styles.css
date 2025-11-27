@@ -1,24 +1,56 @@
 /* _content/ConnectFour/Components/Board.razor.rz.scp.css */
-/* ===== Layout Geral ===== */
-div[b-q4iafmij9j] {
-    position: relative;
+/* ===== Layout Geral (fora do tabuleiro) ===== */
+.drop-row[b-q4iafmij9j] {
+    display: flex;
+    justify-content: center;
+    gap: .35rem;
+    margin-top: 1.5rem;
 }
 
-nav[b-q4iafmij9j] {
-    top: 4em;
-    width: 30em;
+.drop-button[b-q4iafmij9j] {
+    width: 2.6rem;
+    height: 2.6rem;
     display: inline-flex;
-    flex-direction: row;
-    margin-left: 10px;
-}
-
-nav span[b-q4iafmij9j] {
-    width: 4em;
-    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(135deg, #0d6efd, #4dabff);
+    color: white;
     cursor: pointer;
-    font-size: 1em;
+    box-shadow: 0 4px 10px rgba(13, 110, 253, .35);
+    transition: transform .1s ease, box-shadow .1s ease, background .1s ease;
 }
 
+.drop-button.disabled[b-q4iafmij9j],
+.drop-button:disabled[b-q4iafmij9j] {
+    background: #cfd4dc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.drop-button:not(:disabled):hover[b-q4iafmij9j] {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(13, 110, 253, .45);
+}
+
+.status-area[b-q4iafmij9j] {
+    margin-top: .75rem;
+    margin-bottom: .5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+}
+
+.board-container[b-q4iafmij9j] {
+    position: relative;
+    width: 30em;
+    height: 24em;
+    margin: 0 auto 1.5rem auto;
+}
+
+/* ===== Tabuleiro ===== */
 div.board[b-q4iafmij9j] {
     margin-top: 1em;
     flex-wrap: wrap;

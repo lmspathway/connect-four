@@ -16,6 +16,16 @@
 <body>
     <Routes />
     <script src="_framework/blazor.web.js"></script>
+    <script>
+        window.playSound = function (id) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            try {
+                el.currentTime = 0;
+                el.play();
+            } catch { }
+        };
+    </script>
 </body>
 
 </html>
